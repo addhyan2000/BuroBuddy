@@ -1,15 +1,31 @@
-import { branding } from './config/branding';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Landing from './pages/Landing';
+import Life from './pages/Life';
+import Onboarding from './pages/Onboarding';
+import Task from './pages/Task';
+import Timeline from './pages/Timeline';
+import Vault from './pages/Vault';
+import { StoreProvider } from './state/store';
 
-// Step 1: project setup only. The real pages are added in the next steps.
 export default function App() {
   return (
-    <main className="setup-screen">
-      <div className="setup-card">
-        <img src={branding.logoSrc} alt={branding.logoAlt} />
-        <h1>{branding.name}</h1>
-        <p>{branding.tagline}</p>
-        <p className="note">Project setup is working. The demo screens come next.</p>
-      </div>
-    </main>
+    <StoreProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route element={<Layout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/task/:id" element={<Task />} />
+            <Route path="/vault" element={<Vault />} />
+            <Route path="/timeline" element={<Timeline />} />
+            <Route path="/life" element={<Life />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </StoreProvider>
   );
 }
